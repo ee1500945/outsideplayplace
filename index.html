@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台北・新北 四站探索指南</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --ink:#f3f1ea;
+    --bg:#0d0e12;
+    --bg-2:#15161c;
+    --line: rgba(243,241,234,0.14);
+    --oil:#3ea87c;
+    --oil-glow: rgba(62,168,124,0.35);
+    --vr:#a06bff;
+    --vr-glow: rgba(160,107,255,0.35);
+    --hado:#ff5a5f;
+    --hado-glow: rgba(255,90,95,0.35);
+    --sky:#5ab0ff;
+    --sky-glow: rgba(90,176,255,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans TC',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--hado);color:#0d0e12;}
+  a{color:inherit;}
+
+  .app{position:relative;min-height:100vh;}
+
+  /* ============ HOME ============ */
+  .home{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding:70px 24px 50px;
+    position:relative;
+    transition:opacity .5s ease, transform .5s ease, filter .5s ease;
+  }
+  .home::before{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 700px 420px at 12% 8%, rgba(62,168,124,0.16), transparent 60%),
+      radial-gradient(ellipse 700px 420px at 88% 20%, rgba(160,107,255,0.14), transparent 60%),
+      radial-gradient(ellipse 700px 420px at 15% 92%, rgba(255,90,95,0.12), transparent 60%),
+      radial-gradient(ellipse 700px 420px at 90% 95%, rgba(90,176,255,0.14), transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .home-inner{max-width:1080px;margin:0 auto;width:100%;position:relative;z-index:1;}
+
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    opacity:0.55;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--hado);}
+
+  h1.title{
+    font-family:'Noto Serif TC',serif;
+    font-weight:900;
+    font-size:clamp(36px,6.4vw,68px);
+    line-height:1.18;
+    margin:0 0 22px;
+    letter-spacing:-0.01em;
+  }
+  h1.title .line2{
+    background:linear-gradient(90deg, var(--oil), var(--vr) 40%, var(--hado) 70%, var(--sky));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .home p.lede{
+    font-size:16.5px;
+    line-height:1.9;
+    max-width:600px;
+    opacity:0.72;
+    margin:0 0 52px;
+  }
+
+  .menu{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+  }
+  @media (max-width:680px){ .menu{grid-template-columns:1fr;} }
+
+  .stop-btn{
+    all:unset;
+    cursor:pointer;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:26px 26px 22px;
+    min-height:190px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    background:var(--bg-2);
+    overflow:hidden;
+    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .stop-btn::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(135deg, var(--c-glow), transparent 55%);
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .stop-btn:hover, .stop-btn:focus-visible{
+    transform:translateY(-4px);
+    border-color:var(--c);
+    box-shadow:0 20px 40px -20px var(--c-glow);
+  }
+  .stop-btn:hover::after, .stop-btn:focus-visible::after{opacity:1;}
+  .stop-btn:focus-visible{outline:2px solid var(--c);outline-offset:3px;}
+
+  .btn-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;}
+  .btn-num{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--c);
+    border:1px solid var(--c);
+    border-radius:100px;
+    padding:4px 10px;
+  }
+  .btn-icon{width:34px;height:34px;color:var(--c);opacity:0.9;}
+  .btn-body{position:relative;z-index:1;margin-top:20px;}
+  .btn-name{
+    font-family:'Noto Serif TC',serif;
+    font-weight:700;
+    font-size:22px;
+    line-height:1.3;
+    margin:0 0 6px;
+  }
+  .btn-tag{
+    font-size:13px;
+    opacity:0.6;
+  }
+  .btn-cta{
+    margin-top:16px;
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.05em;
+    color:var(--c);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    position:relative;
+    z-index:1;
+  }
+  .btn-cta svg{width:14px;height:14px;transition:transform .3s ease;}
+  .stop-btn:hover .btn-cta svg{transform:translateX(4px);}
+
+  #b-oil{--c:var(--oil);--c-glow:var(--oil-glow);}
+  #b-vr{--c:var(--vr);--c-glow:var(--vr-glow);}
+  #b-hado{--c:var(--hado);--c-glow:var(--hado-glow);}
+  #b-sky{--c:var(--sky);--c-glow:var(--sky-glow);}
+
+  .home-foot{
+    max-width:1080px;margin:60px auto 0; width:100%;
+    font-family:'Space Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.05em;
+    opacity:0.4;
+    position:relative;z-index:1;
+  }
+
+  /* ============ DETAIL PANELS ============ */
+  .panel{
+    position:fixed;
+    inset:0;
+    background:var(--bg);
+    overflow-y:auto;
+    transform:translateY(24px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .45s ease, transform .45s ease;
+    z-index:10;
+  }
+  .panel.active{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  body.panel-open .home{
+    opacity:0;
+    filter:blur(6px);
+    transform:scale(0.98);
+    pointer-events:none;
+  }
+
+  .panel-hero{
+    position:relative;
+    padding:100px 24px 60px;
+    background:var(--p-bg);
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .panel-hero-inner{max-width:1080px;margin:0 auto;position:relative;z-index:2;}
+  .back-btn{
+    all:unset;
+    cursor:pointer;
+    position:fixed;
+    top:24px; left:24px;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Space Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.05em;
+    color:var(--ink);
+    background:rgba(13,14,18,0.7);
+    backdrop-filter:blur(8px);
+    border:1px solid var(--line);
+    padding:9px 16px 9px 12px;
+    border-radius:100px;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .back-btn:hover{transform:translateX(-3px); border-color:var(--p);}
+  .back-btn svg{width:14px;height:14px;}
+
+  .panel-eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--p);
+    margin-bottom:18px;
+  }
+  .panel-title{
+    font-family:'Noto Serif TC',serif;
+    font-weight:900;
+    font-size:clamp(34px,6vw,58px);
+    line-height:1.15;
+    margin:0 0 12px;
+  }
+  .panel-sub{
+    font-size:15px;
+    opacity:0.6;
+    margin:0 0 36px;
+    font-family:'Space Mono',monospace;
+  }
+  .panel-badge{
+    display:inline-block;
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    padding:7px 14px;
+    border:1px solid var(--p);
+    color:var(--p);
+    border-radius:100px;
+  }
+
+  .art-wrap{
+    max-width:900px;
+    margin:0 auto;
+    margin-top:36px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--p-bg2);
+  }
+  .art-wrap svg{display:block;width:100%;height:auto;}
+
+  .panel-body{max-width:1080px;margin:0 auto;padding:56px 24px 100px;}
+  .panel-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:40px;
+  }
+  @media (max-width:760px){ .panel-grid{grid-template-columns:1fr;} }
+
+  .panel-desc p{
+    font-size:15.5px;
+    line-height:2;
+    margin:0 0 18px;
+    opacity:0.88;
+  }
+
+  .highlight-list{
+    list-style:none;
+    margin:26px 0 0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .highlight-list li{
+    font-size:14.5px;
+    line-height:1.7;
+    padding-left:22px;
+    position:relative;
+    opacity:0.9;
+  }
+  .highlight-list li::before{
+    content:'';
+    position:absolute;
+    left:0; top:9px;
+    width:10px;height:2px;
+    background:var(--p);
+  }
+
+  .info-card{
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:26px;
+    height:fit-content;
+  }
+  .info-row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:13px 0;
+    border-bottom:1px solid var(--line);
+    font-size:13.5px;
+    line-height:1.6;
+  }
+  .info-row:last-child{border-bottom:none;padding-bottom:0;}
+  .info-row:first-child{padding-top:0;}
+  .info-label{
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    opacity:0.5;
+    white-space:nowrap;
+    padding-top:2px;
+  }
+  .info-val{text-align:right;font-weight:500;}
+
+  .note{
+    margin-top:20px;
+    padding-top:18px;
+    border-top:1px dashed var(--line);
+    font-size:12.5px;
+    line-height:1.75;
+    opacity:0.7;
+  }
+
+  .panel-nav{
+    max-width:1080px;margin:0 auto;
+    padding:0 24px 90px;
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .nav-link{
+    all:unset;
+    cursor:pointer;
+    flex:1;
+    min-width:200px;
+    padding:18px 22px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .nav-link:hover{transform:translateY(-2px);}
+  .nav-link .nl-label{font-family:'Space Mono',monospace;font-size:11px;opacity:0.5;letter-spacing:0.05em;}
+  .nav-link .nl-name{font-family:'Noto Serif TC',serif;font-weight:700;font-size:16px;}
+  .nav-link.next{align-items:flex-end; text-align:right;}
+  .nav-link.next:hover{border-color:var(--next-c);}
+  .nav-link.home:hover{border-color:var(--ink);}
+
+  #p-oil{--p:var(--oil);--p-bg:linear-gradient(180deg, rgba(62,168,124,0.14), transparent 65%);--p-bg2:rgba(62,168,124,0.06);}
+  #p-vr{--p:var(--vr);--p-bg:linear-gradient(180deg, rgba(160,107,255,0.14), transparent 65%);--p-bg2:rgba(160,107,255,0.06);}
+  #p-hado{--p:var(--hado);--p-bg:linear-gradient(180deg, rgba(255,90,95,0.14), transparent 65%);--p-bg2:rgba(255,90,95,0.06);}
+  #p-sky{--p:var(--sky);--p-bg:linear-gradient(180deg, rgba(90,176,255,0.14), transparent 65%);--p-bg2:rgba(90,176,255,0.06);}
+
+  @media (prefers-reduced-motion: reduce){
+    .home, .panel, .stop-btn, .back-btn, .nav-link{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ HOME ============ -->
+  <main class="home" id="home">
+    <div class="home-inner">
+      <div class="eyebrow"><span class="dot"></span>台北・新北 室內體驗路線</div>
+      <h1 class="title">四種強度的<br><span class="line2">一日探索遊</span></h1>
+      <p class="lede">從地底石油知識、虛擬實境戰場，到 AR 競技場與飛行駕駛艙——這份指南整理了四個風格迥異的室內體驗景點，雨天無阻，點選卡片查看詳細介紹。</p>
+
+      <div class="menu">
+        <button class="stop-btn" id="b-oil" data-target="p-oil">
+          <div class="btn-top">
+            <span class="btn-num">STOP 01</span>
+            <svg class="btn-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M24 6c-6 8-10 14-10 20a10 10 0 0020 0c0-6-4-12-10-20z"/>
+              <path d="M20 30a4 4 0 004 4"/>
+            </svg>
+          </div>
+          <div class="btn-body">
+            <h2 class="btn-name">中油石油探索館</h2>
+            <p class="btn-tag">信義區・免費親子知識館</p>
+          </div>
+          <span class="btn-cta">查看介紹 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </button>
+
+        <button class="stop-btn" id="b-vr" data-target="p-vr">
+          <div class="btn-top">
+            <span class="btn-num">STOP 02</span>
+            <svg class="btn-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="16" width="36" height="18" rx="7"/>
+              <circle cx="16" cy="25" r="3"/>
+              <circle cx="32" cy="25" r="3"/>
+              <path d="M20 25h8"/>
+            </svg>
+          </div>
+          <div class="btn-body">
+            <h2 class="btn-name">VR ZONE New Taipei</h2>
+            <p class="btn-tag">新莊宏匯廣場・虛擬實境樂園</p>
+          </div>
+          <span class="btn-cta">查看介紹 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </button>
+
+        <button class="stop-btn" id="b-hado" data-target="p-hado">
+          <div class="btn-top">
+            <span class="btn-num">STOP 03</span>
+            <svg class="btn-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="24" cy="24" r="8"/>
+              <circle cx="24" cy="24" r="16" stroke-dasharray="3 5"/>
+              <path d="M24 8v6M24 34v6M8 24h6M34 24h6"/>
+            </svg>
+          </div>
+          <div class="btn-body">
+            <h2 class="btn-name">HADO AR 電子躲避球</h2>
+            <p class="btn-tag">台北站前・AR 競技運動</p>
+          </div>
+          <span class="btn-cta">查看介紹 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </button>
+
+        <button class="stop-btn" id="b-sky" data-target="p-sky">
+          <div class="btn-top">
+            <span class="btn-num">STOP 04</span>
+            <svg class="btn-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 26l16-4 8-14 4 2-4 13 12 2v4l-12 2 4 13-4 2-8-14-16-4v-2z"/>
+            </svg>
+          </div>
+          <div class="btn-body">
+            <h2 class="btn-name">台北飛行模擬機中心</h2>
+            <p class="btn-tag">新店・一日機長體驗</p>
+          </div>
+          <span class="btn-cta">查看介紹 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </button>
+      </div>
+    </div>
+    <div class="home-foot">資訊整理自各官方網站與旅遊部落格・實際營業時間、票價與活動內容請以現場或官方公告為準</div>
+  </main>
+
+  <!-- ============ PANEL 01 — 石油探索館 ============ -->
+  <section class="panel" id="p-oil">
+    <button class="back-btn" data-close>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg>
+      回首頁
+    </button>
+    <div class="panel-hero">
+      <div class="panel-hero-inner">
+        <div class="panel-eyebrow">STOP 01 — 知識系</div>
+        <h1 class="panel-title">中油石油探索館</h1>
+        <p class="panel-sub">台灣中油股份有限公司台北業務單位・信義區</p>
+        <span class="panel-badge">免費入場</span>
+
+        <div class="art-wrap">
+          <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="oilsky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0f2b22"/>
+                <stop offset="100%" stop-color="#0d0e12"/>
+              </linearGradient>
+              <linearGradient id="oildrop" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#5fd6a0"/>
+                <stop offset="100%" stop-color="#1f6b4d"/>
+              </linearGradient>
+              <radialGradient id="oilglow" cx="50%" cy="35%" r="60%">
+                <stop offset="0%" stop-color="#3ea87c" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#3ea87c" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="900" height="420" fill="url(#oilsky)"/>
+            <circle cx="450" cy="160" r="220" fill="url(#oilglow)"/>
+            <rect x="0" y="300" width="900" height="20" fill="#173c30" opacity="0.8"/>
+            <rect x="0" y="330" width="900" height="26" fill="#12332a" opacity="0.85"/>
+            <rect x="0" y="366" width="900" height="30" fill="#0e2921" opacity="0.9"/>
+            <rect x="0" y="396" width="900" height="24" fill="#0a1f19"/>
+            <g stroke="#c98a3a" stroke-width="3" fill="none" opacity="0.9">
+              <path d="M430 90 L400 300 M470 90 L500 300 M430 90 L470 90"/>
+              <path d="M410 150 L490 150 M405 200 L495 200 M400 250 L500 250"/>
+              <path d="M430 90 L470 90 L450 60 Z" fill="#c98a3a" opacity="0.15"/>
+            </g>
+            <path d="M450 190 C 430 220, 415 245, 415 265 A35 35 0 0 0 485 265 C 485 245, 470 220, 450 190 Z" fill="url(#oildrop)"/>
+            <circle cx="438" cy="255" r="6" fill="#a9f0cf" opacity="0.6"/>
+            <g fill="#5fd6a0" opacity="0.5">
+              <circle cx="300" cy="340" r="4"/>
+              <circle cx="330" cy="360" r="3"/>
+              <circle cx="580" cy="345" r="4"/>
+              <circle cx="620" cy="370" r="3"/>
+              <circle cx="250" cy="380" r="3"/>
+              <circle cx="660" cy="390" r="3"/>
+            </g>
+            <g fill="#0a1f19" stroke="#3ea87c" stroke-width="1.5" opacity="0.7">
+              <rect x="120" y="330" width="70" height="30" rx="6"/>
+              <circle cx="140" cy="362" r="9"/>
+              <circle cx="172" cy="362" r="9"/>
+              <rect x="680" y="335" width="80" height="26" rx="6"/>
+              <circle cx="700" cy="362" r="9"/>
+              <circle cx="740" cy="362" r="9"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="panel-grid">
+        <div class="panel-desc">
+          <p>位於中油大樓一樓，占地約 400 坪、共兩層樓的親子知識館。一樓主題「解開石油的祕密」，透過環形劇場影片與互動裝置，帶你認識石油如何在地底形成、如何被探勘與開採；二樓「探索石油的蹤跡」則展示石油製品如何走進日常生活的食衣住行。</p>
+          <p>館內設施多為動手操作型：轉動油管觀察油品濃稠度、駕駛震盪震源車探測地層、模擬鑽井取油，最受歡迎的是換裝小小工程師制服、開著黃色小汽車闖關並親自持油槍加油的體驗。整體寓教於樂，很適合帶孩子邊玩邊認識能源知識。</p>
+          <ul class="highlight-list">
+            <li>環形劇場影片＋觸摸式地層互動螢幕</li>
+            <li>開車闖關＋自助加油體驗（全館人氣王，常需排隊）</li>
+            <li>換裝中油工程師制服拍照</li>
+            <li>石油小學堂閱覽區、中油小舖紀念品</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div class="info-row"><span class="info-label">地址</span><span class="info-val">台北市信義區松仁路3號1樓（中油大樓）</span></div>
+          <div class="info-row"><span class="info-label">交通</span><span class="info-val">捷運市政府站 3號出口，步行約5分鐘</span></div>
+          <div class="info-row"><span class="info-label">開放時間</span><span class="info-val">週一至週五 09:00–17:00</span></div>
+          <div class="info-row"><span class="info-label">休館</span><span class="info-val">週六、日及國定假日</span></div>
+          <div class="info-row"><span class="info-label">費用</span><span class="info-val">免門票，團體導覽需email預約</span></div>
+          <div class="info-row"><span class="info-label">建議停留</span><span class="info-val">約 1～1.5 小時</span></div>
+          <div class="note">⚠️ 僅平日開放，假日公休，安排行程時請留意。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-nav" style="--next-c:var(--vr);">
+      <button class="nav-link home" data-close>
+        <span class="nl-label">← BACK</span>
+        <span class="nl-name">回首頁總覽</span>
+      </button>
+      <button class="nav-link next" data-target="p-vr">
+        <span class="nl-label">NEXT — STOP 02</span>
+        <span class="nl-name">VR ZONE New Taipei →</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ PANEL 02 — VR ZONE ============ -->
+  <section class="panel" id="p-vr">
+    <button class="back-btn" data-close>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg>
+      回首頁
+    </button>
+    <div class="panel-hero">
+      <div class="panel-hero-inner">
+        <div class="panel-eyebrow">STOP 02 — 沉浸系</div>
+        <h1 class="panel-title">VR ZONE New Taipei</h1>
+        <p class="panel-sub">新北宏匯廣場 9樓・虛擬實境遊樂園</p>
+        <span class="panel-badge">單項體驗制</span>
+
+        <div class="art-wrap">
+          <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="vrbg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#241245"/>
+                <stop offset="100%" stop-color="#0d0e12"/>
+              </linearGradient>
+              <radialGradient id="vrglow" cx="50%" cy="45%" r="55%">
+                <stop offset="0%" stop-color="#a06bff" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#a06bff" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="900" height="420" fill="url(#vrbg)"/>
+            <circle cx="450" cy="190" r="230" fill="url(#vrglow)"/>
+            <g stroke="#a06bff" stroke-width="1" opacity="0.25">
+              <path d="M0 360 L900 360 M0 380 L900 380 M0 400 L900 400"/>
+              <path d="M150 420 L300 340 M350 420 L400 340 M550 420 L500 340 M750 420 L600 340"/>
+            </g>
+            <g transform="translate(450,190)">
+              <rect x="-110" y="-55" width="220" height="110" rx="45" fill="#1b1030" stroke="#a06bff" stroke-width="3"/>
+              <ellipse cx="-45" cy="0" rx="34" ry="30" fill="#22e6c5" opacity="0.85"/>
+              <ellipse cx="45" cy="0" rx="34" ry="30" fill="#22e6c5" opacity="0.85"/>
+              <rect x="-140" y="-14" width="30" height="28" rx="8" fill="#1b1030" stroke="#a06bff" stroke-width="2.5"/>
+              <rect x="110" y="-14" width="30" height="28" rx="8" fill="#1b1030" stroke="#a06bff" stroke-width="2.5"/>
+            </g>
+            <g fill="#22e6c5">
+              <circle cx="220" cy="230" r="4" opacity="0.8"/>
+              <circle cx="250" cy="255" r="3" opacity="0.6"/>
+              <circle cx="680" cy="235" r="4" opacity="0.8"/>
+              <circle cx="650" cy="260" r="3" opacity="0.6"/>
+            </g>
+            <g stroke="#a06bff" stroke-width="1.5" fill="none" opacity="0.5">
+              <polygon points="140,120 175,100 200,135 170,160"/>
+              <polygon points="700,90 740,110 720,150 680,135"/>
+              <polygon points="760,260 800,275 780,310"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="panel-grid">
+        <div class="panel-desc">
+          <p>由日本 BANDAI NAMCO（萬代南夢宮）打造，是全球第 10 個 VR ZONE 據點，也是台灣獨家分館，位於新莊宏匯廣場 9 樓，占地約 350 坪，共有 12 款沉浸式體驗 IP。玩家頭戴 HTC Vive 專業級頭顯與手部感應器，走入動漫、電玩世界展開冒險。</p>
+          <p>遊戲類型分兩大類：改編自知名 IP 的體驗，如瑪利歐賽車 ARCADE GP VR、哥吉拉 VR、新世紀福音戰士 VR、鋼彈 VR 台場強襲、七龍珠秘傳龜派氣功波；以及館方原創的多人冒險，如驚恐實感體驗室「病樓逃亡 Ω」（18禁，需多人合作逃脫）、飛翔自行車、急滑降體感機「巔峰飆雪」等。每款遊戲時間約 6～13 分鐘，各有年齡與身高限制。</p>
+          <ul class="highlight-list">
+            <li>瑪利歐賽車 ARCADE GP VR — 多人競速，適合親子</li>
+            <li>新世紀福音戰士 VR / 鋼彈 VR — 動漫粉絲必玩</li>
+            <li>病樓逃亡 Ω — 多人恐怖逃脫，18禁、有暴力驚悚內容</li>
+            <li>飛翔自行車 — 需 150 公分以上，挑戰度高</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div class="info-row"><span class="info-label">地址</span><span class="info-val">新北市新莊區新北大道四段3號9樓（宏匯廣場）</span></div>
+          <div class="info-row"><span class="info-label">交通</span><span class="info-val">機場捷運 A4 新莊副都心站，步行約5分鐘</span></div>
+          <div class="info-row"><span class="info-label">營業時間</span><span class="info-val">平日 11:00–21:30／週五六及例假日前一日 11:00–22:00</span></div>
+          <div class="info-row"><span class="info-label">票價</span><span class="info-val">單項約 NT$350起（會員／通路常有優惠票）</span></div>
+          <div class="info-row"><span class="info-label">套票</span><span class="info-val">提供2項、4項套票優惠</span></div>
+          <div class="note">💡 建議先線上購票或加入宏匯會員享優惠價，現場尖峰時段排隊較久。部分遊戲有年齡／身高限制，帶小孩前建議先查好清單。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-nav" style="--next-c:var(--hado);">
+      <button class="nav-link home" data-close>
+        <span class="nl-label">← BACK</span>
+        <span class="nl-name">回首頁總覽</span>
+      </button>
+      <button class="nav-link next" data-target="p-hado">
+        <span class="nl-label">NEXT — STOP 03</span>
+        <span class="nl-name">HADO AR 電子躲避球 →</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ PANEL 03 — HADO ============ -->
+  <section class="panel" id="p-hado">
+    <button class="back-btn" data-close>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg>
+      回首頁
+    </button>
+    <div class="panel-hero">
+      <div class="panel-hero-inner">
+        <div class="panel-eyebrow">STOP 03 — 競技系</div>
+        <h1 class="panel-title">HADO AR 電子躲避球</h1>
+        <p class="panel-sub">台北站前亞洲廣場 B3</p>
+        <span class="panel-badge">3對3 團隊賽</span>
+
+        <div class="art-wrap">
+          <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3a0f14"/>
+                <stop offset="100%" stop-color="#0d0e12"/>
+              </linearGradient>
+              <radialGradient id="hglow" cx="50%" cy="50%" r="55%">
+                <stop offset="0%" stop-color="#ff5a5f" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#ff5a5f" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="900" height="420" fill="url(#hbg)"/>
+            <circle cx="450" cy="210" r="240" fill="url(#hglow)"/>
+            <g stroke="#ffb400" stroke-width="1.5" opacity="0.35" fill="none">
+              <rect x="100" y="330" width="700" height="70" rx="6"/>
+              <line x1="450" y1="330" x2="450" y2="400"/>
+              <circle cx="450" cy="365" r="22"/>
+            </g>
+            <circle cx="450" cy="190" r="46" fill="none" stroke="#ff5a5f" stroke-width="3"/>
+            <circle cx="450" cy="190" r="30" fill="#ff5a5f" opacity="0.35"/>
+            <circle cx="450" cy="190" r="14" fill="#ffb400"/>
+            <g stroke="#ff5a5f" stroke-width="2" opacity="0.6">
+              <path d="M450 130 v-20 M450 250 v20 M390 190 h-20 M510 190 h20"/>
+              <path d="M408 148 l-14-14 M492 148 l14-14 M408 232 l-14 14 M492 232 l14 14"/>
+            </g>
+            <g fill="#1b0a0c" stroke="#ffb400" stroke-width="2">
+              <circle cx="230" cy="230" r="20"/>
+              <path d="M230 250 L230 310 M230 260 L195 290 M230 260 L265 290 M230 310 L205 340 M230 310 L255 340"/>
+            </g>
+            <g fill="#1b0a0c" stroke="#ffb400" stroke-width="2">
+              <circle cx="670" cy="230" r="20"/>
+              <path d="M670 250 L670 310 M670 260 L635 290 M670 260 L705 290 M670 310 L645 340 M670 310 L695 340"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="panel-grid">
+        <div class="panel-desc">
+          <p>HADO 是源自日本、利用 AR 擴增實境技術打造的科技運動，名稱來自「波動拳」的日文「hadoken」。玩家佩戴 AR 頭部顯示器與腕帶感應器，就能在真實場地中發射能量球進攻、舉起護盾防禦，體驗如同動漫主角對戰般的真人躲避球刺激感——卻完全不會有被球打到的疼痛感。</p>
+          <p>採 3 對 3 團隊制，每場比賽計時 80 秒，現場教練會全程陪同教學，從穿戴設備、基本攻防動作到屬性點數配置，約 10 分鐘即可快速上手，大人小孩都適合，也是熱門的公司團建與朋友聚會活動選項。台北場館位於站前亞洲廣場地下三樓，交通便利。</p>
+          <ul class="highlight-list">
+            <li>AR 頭顯＋腕帶感應器，發射能量球、舉盾防禦</li>
+            <li>3對3 團隊賽，80秒高強度對戰</li>
+            <li>教練全程陪同，10分鐘快速上手</li>
+            <li>零撞擊、零疼痛，適合親子與新手</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div class="info-row"><span class="info-label">地址</span><span class="info-val">台北市｜站前亞洲廣場 B3</span></div>
+          <div class="info-row"><span class="info-label">人數</span><span class="info-val">建議 3～9人／場，體驗最佳</span></div>
+          <div class="info-row"><span class="info-label">方式</span><span class="info-val">預約制，建議提前線上報名</span></div>
+          <div class="info-row"><span class="info-label">場館類型</span><span class="info-val">同場館內另設好鬥格子 Fighting Cube</span></div>
+          <div class="info-row"><span class="info-label">適合對象</span><span class="info-val">親子活動／公司團建／朋友聚會</span></div>
+          <div class="note">📸 遊玩全程約 80 秒的正式對戰通常會錄影，方案與價格請以官網或現場公告為準，出發前建議先電話或線上確認場次。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-nav" style="--next-c:var(--sky);">
+      <button class="nav-link home" data-close>
+        <span class="nl-label">← BACK</span>
+        <span class="nl-name">回首頁總覽</span>
+      </button>
+      <button class="nav-link next" data-target="p-sky">
+        <span class="nl-label">NEXT — STOP 04</span>
+        <span class="nl-name">台北飛行模擬機中心 →</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ PANEL 04 — 飛行模擬機中心 ============ -->
+  <section class="panel" id="p-sky">
+    <button class="back-btn" data-close>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg>
+      回首頁
+    </button>
+    <div class="panel-hero">
+      <div class="panel-hero-inner">
+        <div class="panel-eyebrow">STOP 04 — 圓夢系</div>
+        <h1 class="panel-title">台北飛行模擬機中心</h1>
+        <p class="panel-sub">Taipei Flight Simulator Center・新店</p>
+        <span class="panel-badge">一日機長</span>
+
+        <div class="art-wrap">
+          <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="skybg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0f2a45"/>
+                <stop offset="100%" stop-color="#0d0e12"/>
+              </linearGradient>
+              <radialGradient id="skyglow" cx="50%" cy="30%" r="60%">
+                <stop offset="0%" stop-color="#5ab0ff" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#5ab0ff" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="900" height="420" fill="url(#skybg)"/>
+            <circle cx="450" cy="150" r="230" fill="url(#skyglow)"/>
+            <g fill="#5ab0ff" opacity="0.15">
+              <ellipse cx="160" cy="90" rx="70" ry="20"/>
+              <ellipse cx="740" cy="120" rx="90" ry="24"/>
+              <ellipse cx="620" cy="60" rx="50" ry="14"/>
+            </g>
+            <g transform="translate(450,200)">
+              <path d="M-260 10 L-40 -6 L20 -60 L46 -60 L26 -6 L200 -2 L260 10 L200 16 L20 12 L-20 44 L-50 44 L-30 12 L-260 18 Z" fill="#e8c46a" opacity="0.95"/>
+              <path d="M-120 -6 C -100 -30, -40 -32, -10 -8 L -120 -6 Z" fill="#e8c46a" opacity="0.95"/>
+              <g fill="#0f2a45" opacity="0.6">
+                <circle cx="-160" cy="4" r="2"/>
+                <circle cx="-140" cy="4" r="2"/>
+                <circle cx="-120" cy="4" r="2"/>
+                <circle cx="-100" cy="2" r="2"/>
+                <circle cx="-80" cy="0" r="2"/>
+                <circle cx="-60" cy="-2" r="2"/>
+              </g>
+              <rect x="-70" y="26" width="34" height="12" rx="5" fill="#0d0e12" stroke="#5ab0ff" stroke-width="1.5"/>
+              <rect x="30" y="26" width="34" height="12" rx="5" fill="#0d0e12" stroke="#5ab0ff" stroke-width="1.5"/>
+            </g>
+            <g stroke="#5ab0ff" stroke-width="2" stroke-dasharray="6 10" opacity="0.5" fill="none">
+              <path d="M60 300 Q 300 250 450 210 T 840 260"/>
+            </g>
+            <g fill="#5ab0ff" opacity="0.4">
+              <rect x="380" y="392" width="10" height="18"/>
+              <rect x="430" y="392" width="10" height="18"/>
+              <rect x="480" y="392" width="10" height="18"/>
+              <rect x="530" y="392" width="10" height="18"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="panel-grid">
+        <div class="panel-desc">
+          <p>位於新北市新店區的專業飛行模擬機單位，主打全罩式波音 747-400 模擬機——這款有「空中女王」之稱的經典機型，是航空史上重要的機型之一，館方希望透過模擬機延續它的魅力。模擬機可真實還原世界各地機場場景與各種異常狀況處理程序，貼近真實飛行訓練所使用的規格。</p>
+          <p>適合對飛行、航空有興趣的大朋友小朋友，無論是想圓一次「開飛機」的夢，或是想更了解正式機師的訓練環境，都可以透過預約體驗坐進駕駛艙、操作真實的儀表與操縱桿。也提供體驗禮券，適合作為生日或特別節日的驚喜禮物。</p>
+          <ul class="highlight-list">
+            <li>1:1全罩式 波音 747-400 專業版模擬機</li>
+            <li>可模擬世界各地機場與異常狀況處理程序</li>
+            <li>體驗禮券可作為生日等特別日子的贈禮</li>
+            <li>需事先電話或線上預約</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div class="info-row"><span class="info-label">地址</span><span class="info-val">新北市新店區寶宏路40巷20號4樓</span></div>
+          <div class="info-row"><span class="info-label">機型</span><span class="info-val">Boeing 747-400 全罩式模擬機</span></div>
+          <div class="info-row"><span class="info-label">預約方式</span><span class="info-val">電話預約為主，建議先致電確認場次</span></div>
+          <div class="info-row"><span class="info-label">Google評分</span><span class="info-val">4.5</span></div>
+          <div class="note">✈️ 台北另有 iPILOT（台北101／桃園）提供 A320／737 模擬機體驗，若想比較不同機型或地點，可一併列入口袋名單。出發前建議先電話確認營業時段與收費方式。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-nav">
+      <button class="nav-link home" data-close style="flex:1;">
+        <span class="nl-label">← BACK</span>
+        <span class="nl-name">回首頁總覽</span>
+      </button>
+      <button class="nav-link next" data-target="p-oil" style="flex:1;">
+        <span class="nl-label">RESTART — STOP 01</span>
+        <span class="nl-name">中油石油探索館 →</span>
+      </button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const panels = document.querySelectorAll('.panel');
+  const body = document.body;
+
+  function openPanel(id){
+    panels.forEach(p => p.classList.toggle('active', p.id === id));
+    body.classList.add('panel-open');
+    const target = document.getElementById(id);
+    if(target) target.scrollTop = 0;
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  function closeAll(){
+    panels.forEach(p => p.classList.remove('active'));
+    body.classList.remove('panel-open');
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  document.querySelectorAll('[data-target]').forEach(el=>{
+    el.addEventListener('click', ()=> openPanel(el.getAttribute('data-target')));
+  });
+  document.querySelectorAll('[data-close]').forEach(el=>{
+    el.addEventListener('click', closeAll);
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') closeAll();
+  });
+</script>
+
+</body>
+</html>
